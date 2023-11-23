@@ -25,7 +25,7 @@ FILE_NAME: str = "Enrollments.json"
 # Define the Data Variables
 menu_choice: str  # Hold the choice made by the user.
 students: list = []  # a table of student data
-file = _io.TextIOWrapper  # the default item type for this type of file.
+file = _io.TextIOWrapper  # the default item type for this object.
 
 class FileProcessor:
     """
@@ -53,6 +53,7 @@ class FileProcessor:
             if os.path.exists(file_name):
                 file = open(file_name, "r")
             else:
+                print("Existing file not found, creating new file.\n")
                 file = open(file_name, "w")
                 file.write("[]")
                 file.close()
@@ -73,15 +74,15 @@ class FileProcessor:
         
         ChangeLog: (Who, When, What)
         TPerkins, 11/23/2023, Created for Assignment06
-        :param file_name: 
-        :param student_data: 
+        :param file_name: The file name to be written to
+        :param student_data: The list of data to write
         :return: None
         """
         global file
         global num_records
         try:
             file = open(file_name, "w")
-            json.dump(student_data, file)
+            json.dump(student_data, file, indent=4)
             file.close()
             print("The following data was saved to the file:")
             counter = 0
@@ -235,6 +236,6 @@ while True:
     elif menu_choice == "4":
         break  # out of the loop
     else:
-        print("Please only choose option 1, 2, or 3")
+        print("Please only choose option 1, 2, 3, or 4.")
 
 print("Program Ended")
