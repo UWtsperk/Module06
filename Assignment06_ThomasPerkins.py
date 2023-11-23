@@ -25,8 +25,7 @@ FILE_NAME: str = "Enrollments.json"
 # Define the Data Variables
 menu_choice: str  # Hold the choice made by the user.
 students: list = []  # a table of student data
-file = _io.TextIOWrapper
-
+file = _io.TextIOWrapper  # the default item type for this type of file.
 
 class FileProcessor:
     """
@@ -79,14 +78,19 @@ class FileProcessor:
         :return: None
         """
         global file
+        global num_records
         try:
             file = open(file_name, "w")
             json.dump(student_data, file)
             file.close()
-            print("The following data was saved to file!")
+            print("The following data was saved to the file:")
+            counter = 0
             for student in student_data:
-                print(f'Student {student["FirstName"]} '
-                      f'{student["LastName"]} is enrolled in {student["CourseName"]}')
+                counter += 1
+                if counter > num_records:
+                    print(f'Student {student["FirstName"]} '
+                          f'{student["LastName"]} is enrolled in {student["CourseName"]}')
+            num_records = counter
         except Exception as e:
             if not file.closed:
                 file.close()
@@ -203,6 +207,7 @@ class IO:
 
 # Open the data file
 students = FileProcessor.read_data_from_file(FILE_NAME, students)
+num_records = len(students)
 
 # Present and Process the data
 while True:
